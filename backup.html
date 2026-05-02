@@ -1,0 +1,1106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday My Love 💕</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script:wght@400;600;700&family=Lato:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --pink-light: #ffe4ee;
+        --pink-mid: #ffb3cb;
+        --pink-deep: #e8638c;
+        --rose: #c0395e;
+        --red: #a0243f;
+        --white: #fff9fb;
+        --shadow: rgba(192, 57, 94, 0.18);
+        --font-display: "Great Vibes", cursive;
+        --font-script: "Dancing Script", cursive;
+        --font-body: "Lato", sans-serif;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: var(--pink-light);
+        color: var(--rose);
+        font-family: var(--font-body);
+      }
+
+      /* ─── Floating hearts background ─── */
+      #hearts-bg {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+      }
+      .bg-heart {
+        position: absolute;
+        font-size: 1.4rem;
+        opacity: 0;
+        animation: floatUp linear infinite;
+        user-select: none;
+      }
+      @keyframes floatUp {
+        0% {
+          transform: translateY(0) rotate(0deg) scale(0.8);
+          opacity: 0;
+        }
+        10% {
+          opacity: 0.35;
+        }
+        90% {
+          opacity: 0.2;
+        }
+        100% {
+          transform: translateY(-110vh) rotate(20deg) scale(1.1);
+          opacity: 0;
+        }
+      }
+
+      /* ─── Screens ─── */
+      .screen {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 1;
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+      .screen.hidden {
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(0.97);
+      }
+
+      /* ─── QUESTION SCREEN ─── */
+      #question-screen {
+        gap: 2.5rem;
+        background: linear-gradient(
+          160deg,
+          #fff0f5 0%,
+          #ffe4ee 40%,
+          #ffd0e3 100%
+        );
+      }
+      #question-screen .question-text {
+        font-family: var(--font-display);
+        font-size: clamp(3rem, 10vw, 5.5rem);
+        color: var(--rose);
+        text-shadow: 0 2px 18px rgba(192, 57, 94, 0.18);
+        text-align: center;
+        line-height: 1.1;
+        padding: 0 1rem;
+        animation: textPulse 3s ease-in-out infinite;
+      }
+      @keyframes textPulse {
+        0%,
+        100% {
+          text-shadow: 0 2px 18px rgba(192, 57, 94, 0.18);
+        }
+        50% {
+          text-shadow: 0 4px 32px rgba(192, 57, 94, 0.38);
+        }
+      }
+      .buttons-row {
+        display: flex;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .btn {
+        padding: 0.85rem 2.4rem;
+        border: none;
+        border-radius: 50px;
+        font-family: var(--font-script);
+        font-size: 1.5rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition:
+          transform 0.18s,
+          box-shadow 0.18s;
+        letter-spacing: 0.02em;
+      }
+      #yes-btn {
+        background: linear-gradient(135deg, var(--pink-deep), var(--rose));
+        color: #fff;
+        box-shadow: 0 6px 24px rgba(192, 57, 94, 0.32);
+        z-index: 10;
+      }
+      #yes-btn:hover {
+        transform: scale(1.08);
+        box-shadow: 0 10px 32px rgba(192, 57, 94, 0.42);
+      }
+      #no-btn {
+        background: #fff;
+        color: var(--rose);
+        border: 2px solid var(--pink-mid);
+        box-shadow: 0 4px 14px var(--shadow);
+        position: fixed; /* fixed so we can move freely */
+        z-index: 10;
+        transition:
+          left 0.12s ease,
+          top 0.12s ease;
+      }
+
+      /* ─── POPUP OVERLAY ─── */
+      #popup-overlay {
+        background: linear-gradient(160deg, #fff0f5, #ffe4ee);
+        z-index: 20;
+        gap: 1.5rem;
+        padding: 2rem;
+      }
+      #popup-overlay.hidden {
+        transform: scale(1.04);
+      }
+      #confetti-canvas {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 19;
+      }
+      .bday-title {
+        font-family: var(--font-display);
+        font-size: clamp(3.5rem, 12vw, 7rem);
+        color: var(--rose);
+        text-align: center;
+        line-height: 1.05;
+        animation: scaleIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+      }
+      @keyframes scaleIn {
+        from {
+          transform: scale(0.4);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      /* ─── FIRECRACKER ANIMATION ─── */
+      .firecracker-container {
+        position: relative;
+        display: inline-block;
+      }
+
+      .firecracker {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        pointer-events: none;
+        animation: crackBurst 1.2s ease-out forwards;
+      }
+
+      .firecracker.red {
+        background: #ff4444;
+        box-shadow: 0 0 6px #ff4444;
+      }
+
+      .firecracker.gold {
+        background: #ffd700;
+        box-shadow: 0 0 8px #ffaa00;
+      }
+
+      .firecracker.pink {
+        background: #ff69b4;
+        box-shadow: 0 0 6px #ff69b4;
+      }
+
+      @keyframes crackBurst {
+        0% {
+          transform: translate(0, 0) scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(var(--tx), var(--ty)) scale(0);
+          opacity: 0;
+        }
+      }
+      .bday-sub {
+        font-family: var(--font-script);
+        font-size: clamp(1.2rem, 4vw, 1.8rem);
+        color: var(--pink-deep);
+        text-align: center;
+        animation: fadeSlideUp 0.8s 0.4s ease both;
+      }
+      @keyframes fadeSlideUp {
+        from {
+          opacity: 0;
+          transform: translateY(18px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      #continue-btn {
+        background: linear-gradient(135deg, var(--pink-deep), var(--rose));
+        color: #fff;
+        box-shadow: 0 6px 24px rgba(192, 57, 94, 0.32);
+        animation: fadeSlideUp 0.8s 0.9s ease both;
+      }
+      #continue-btn:hover {
+        transform: scale(1.07);
+        box-shadow: 0 10px 32px rgba(192, 57, 94, 0.42);
+      }
+
+      /* ─── GALLERY SCREEN ─── */
+      #gallery-screen {
+        background: linear-gradient(
+          160deg,
+          #fff5f8 0%,
+          #ffe4ee 60%,
+          #ffd0e3 100%
+        );
+        gap: 0;
+        overflow-y: auto;
+        justify-content: flex-start;
+        padding-top: 2rem;
+      }
+      .gallery-inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.4rem;
+        width: 100%;
+        max-width: 560px;
+        padding: 0 1.2rem 2.5rem;
+        margin: 0 auto;
+      }
+      .gallery-header {
+        font-family: var(--font-display);
+        font-size: clamp(2.2rem, 8vw, 3.8rem);
+        color: var(--rose);
+        text-align: center;
+      }
+      .photo-counter {
+        font-family: var(--font-script);
+        font-size: 1rem;
+        color: var(--pink-deep);
+        letter-spacing: 0.05em;
+      }
+      /* ── Photo area wrapper (replaces old .photo-frame) ── */
+      .photo-area {
+        width: 100%;
+        position: relative;
+        transition: opacity 0.4s ease;
+      }
+      .photo-area.fade-out {
+        opacity: 0;
+      }
+
+      /* Single image */
+      .photo-area.single .photo-frame {
+        width: 100%;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow:
+          0 8px 40px rgba(192, 57, 94, 0.18),
+          0 2px 8px rgba(192, 57, 94, 0.1);
+        border: 4px solid #fff;
+        position: relative;
+        background: var(--pink-light);
+        aspect-ratio: 4/3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .photo-area.single .photo-frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      /* Grid of multiple images */
+      .photo-area.multi .photo-grid {
+        display: grid;
+        gap: 8px;
+        width: 100%;
+      }
+      /* 2 images → 2 cols; 3 images → 3 cols; 4 images → 2×2; 5-6 → 3 cols */
+      .photo-area.multi .photo-grid.count-2 {
+        grid-template-columns: 1fr 1fr;
+      }
+      .photo-area.multi .photo-grid.count-3 {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+      .photo-area.multi .photo-grid.count-4 {
+        grid-template-columns: 1fr 1fr;
+      }
+      .photo-area.multi .photo-grid.count-5 {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+      .photo-area.multi .photo-grid.count-6 {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+
+      .photo-area.multi .grid-cell {
+        border-radius: 12px;
+        overflow: hidden;
+        border: 3px solid #fff;
+        box-shadow: 0 4px 14px rgba(192, 57, 94, 0.16);
+        aspect-ratio: 1/1;
+        background: var(--pink-light);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .photo-area.multi .grid-cell img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      /* Heart badge on the whole area */
+      .heart-badge {
+        position: absolute;
+        top: 10px;
+        right: 14px;
+        font-size: 1.5rem;
+        z-index: 2;
+        filter: drop-shadow(0 2px 6px rgba(192, 57, 94, 0.35));
+        animation: heartbeat 1.4s ease-in-out infinite;
+        pointer-events: none;
+      }
+      @keyframes heartbeat {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        30% {
+          transform: scale(1.22);
+        }
+        60% {
+          transform: scale(1.05);
+        }
+      }
+      .photo-message {
+        background: #fff;
+        border-radius: 16px;
+        padding: 1.1rem 1.4rem;
+        text-align: center;
+        box-shadow: 0 4px 18px var(--shadow);
+        border-left: 4px solid var(--pink-mid);
+        width: 100%;
+        transition: opacity 0.4s ease;
+        min-height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .photo-message.fade-out {
+        opacity: 0;
+      }
+      .photo-message p {
+        font-family: var(--font-script);
+        font-size: clamp(1.05rem, 3.5vw, 1.25rem);
+        color: var(--rose);
+        line-height: 1.5;
+      }
+      .gallery-nav {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        width: 100%;
+      }
+      .nav-btn {
+        padding: 0.7rem 2rem;
+        border: 2px solid var(--pink-mid);
+        border-radius: 50px;
+        background: #fff;
+        color: var(--rose);
+        font-family: var(--font-script);
+        font-size: 1.25rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition:
+          background 0.18s,
+          color 0.18s,
+          transform 0.15s;
+        box-shadow: 0 3px 10px var(--shadow);
+      }
+      .nav-btn:hover {
+        background: var(--pink-deep);
+        color: #fff;
+        transform: scale(1.05);
+      }
+      .nav-btn:disabled {
+        opacity: 0.35;
+        cursor: default;
+        transform: none;
+      }
+
+      /* ─── FINAL OVERLAY ─── */
+      #final-overlay {
+        background: linear-gradient(160deg, #fff0f5, #ffd6e7);
+        z-index: 30;
+        gap: 1.6rem;
+        padding: 2rem;
+        text-align: center;
+      }
+      #final-overlay.hidden {
+        transform: scale(1.04);
+      }
+      .final-emoji {
+        font-size: 3rem;
+        animation: heartbeat 1.2s ease-in-out infinite;
+      }
+      .final-title {
+        font-family: var(--font-display);
+        font-size: clamp(2.8rem, 10vw, 5.5rem);
+        color: var(--rose);
+        line-height: 1.1;
+      }
+      .final-msg {
+        font-family: var(--font-script);
+        font-size: clamp(1.1rem, 4vw, 1.5rem);
+        color: var(--pink-deep);
+        max-width: 400px;
+        line-height: 1.6;
+      }
+      #restart-btn {
+        background: linear-gradient(135deg, var(--pink-deep), var(--rose));
+        color: #fff;
+        box-shadow: 0 6px 24px rgba(192, 57, 94, 0.32);
+      }
+      #restart-btn:hover {
+        transform: scale(1.07);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ═══════════════════════════════════════════════
+     FLOATING HEARTS BACKGROUND
+═══════════════════════════════════════════════ -->
+    <div id="hearts-bg"></div>
+
+    <!-- ═══════════════════════════════════════════════
+     SCREEN 1 — QUESTION
+═══════════════════════════════════════════════ -->
+    <div class="screen" id="question-screen">
+      <p class="question-text">Do you love me?</p>
+      <div class="buttons-row">
+        <button class="btn" id="yes-btn" onclick="onYes()">Yes 💕</button>
+      </div>
+      <!-- The No button is injected by JS so it can be positioned freely -->
+    </div>
+
+    <!-- ═══════════════════════════════════════════════
+     CONFETTI CANVAS (shown during popup)
+═══════════════════════════════════════════════ -->
+    <canvas id="confetti-canvas" style="display: none"></canvas>
+
+    <!-- ═══════════════════════════════════════════════
+     SCREEN 2 — BIRTHDAY POPUP
+═══════════════════════════════════════════════ -->
+    <div class="screen hidden" id="popup-overlay">
+      <div class="firecracker-container" id="firecracker-zone">
+        <p class="bday-title">Happy<br />Birthday Anushka! 🎂</p>
+      </div>
+      <p
+        style="
+          font-family: var(--font-display);
+          font-size: clamp(2rem, 8vw, 3rem);
+          color: var(--pink-deep);
+          animation: fadeSlideUp 0.8s 0.2s ease both;
+          margin: 0.5rem 0;
+        "
+      >
+        🎉 Anushka turns 20 🎉
+      </p>
+      <div
+        style="
+          width: 200px;
+          height: 200px;
+          background: linear-gradient(135deg, #ffe4ee, #ffb3cb);
+          border-radius: 16px;
+          border: 3px dashed var(--rose);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          animation: fadeSlideUp 0.8s 0.3s ease both;
+          box-shadow: 0 4px 18px var(--shadow);
+        "
+      >
+        <p
+          style="
+            text-align: center;
+            color: var(--rose);
+            font-family: var(--font-script);
+            font-size: 3rem;
+          "
+        >
+          📸<br /><span style="font-size: 0.9rem; font-family: var(--font-body)"
+            >Your photo here</span
+          >
+        </p>
+      </div>
+      <p class="bday-sub">You deserve all the love in the world ✨</p>
+      <button class="btn" id="continue-btn" onclick="showGallery()">
+        See your gift 💝
+      </button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════
+     SCREEN 3 — PHOTO GALLERY
+═══════════════════════════════════════════════ -->
+    <div class="screen hidden" id="gallery-screen">
+      <div class="gallery-inner">
+        <h1 class="gallery-header">Our Moments 💞</h1>
+        <p class="photo-counter" id="photo-counter">1 / 6</p>
+
+        <!-- Photo area: single image or grid — built dynamically by JS -->
+        <div class="photo-area" id="photo-area"></div>
+
+        <div class="photo-message" id="photo-message">
+          <p id="message-text"></p>
+        </div>
+
+        <div class="gallery-nav">
+          <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">
+            ← Prev
+          </button>
+          <button class="nav-btn" id="next-btn" onclick="navigate(1)">
+            Next →
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════
+     SCREEN 4 — FINAL LOVE MESSAGE
+═══════════════════════════════════════════════ -->
+    <div class="screen hidden" id="final-overlay">
+      <div class="final-emoji">💖</div>
+      <p class="final-title">I love you<br />forever</p>
+      <!-- ── FINAL MESSAGE: edit this text ── -->
+      <p class="final-msg">
+        First of all yeh thoda late kar raha hu mai uske liye sorry pata hai mujhe currently hum bahot jyda lad rahe hai jhagad rahe hai which is very much affecting you as well as me but mujhe ek mauka toh de mai nay ladunga abse mai hu thoda irrotating pata hai mujhe but jaisa bhi hu tera hei hu naa re aise mat karna mujhse chota sa innocent bacha hu mai bhi thoda mujhe bhi samaj ke le at th end a very very happy birthday tou you my babyy i am always by your side whenever you need me i am jista call/text away and this year is very much important for us we are going to get placed yayyy chal ab byeee love youuu
+      </p>
+      <button class="btn" id="restart-btn" onclick="restart()">
+        From the beginning 🔄
+      </button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════
+     ★  EDIT YOUR PHOTOS AND MESSAGES BELOW  ★
+     ─────────────────────────────────────────────
+     photos[i]    → path to your image file
+     messages[i]  → the message shown under that photo
+
+     Add or remove entries to change the count.
+     Keep the arrays the same length!
+═══════════════════════════════════════════════ -->
+    <script>
+      /* ──────────────────────────────────────────
+     PHOTO & MESSAGE DATA  ← EDIT HERE
+  ────────────────────────────────────────── */
+      /*
+  ═══════════════════════════════════════════════════════════
+   ★  GALLERY PAGES — EDIT HERE  ★
+
+   Each entry in `pages` is one "slide" in the gallery.
+   Set `images` to:
+     • A single string  → shows one full-width photo
+     • An array         → shows a side-by-side grid (2–6 photos)
+
+   Set `message` to whatever you want written below the photo(s).
+
+   Add as many pages as you like — just keep adding objects!
+  ═══════════════════════════════════════════════════════════ */
+      const pages = [
+        /* ── PAGE 1: single image ── */
+        {
+          images:
+            ["C:/Users/thaku/Birthday/images/WhatsApp Image 2026-05-01 at 11.54.42 PM (1).jpeg",
+            "C:/Users/thaku/Birthday/images/WhatsApp Image 2026-05-01 at 11.54.39 PM (2).jpeg",
+            "C:/Users/thaku/Birthday/images/WhatsApp Image 2026-05-01 at 11.54.41 PM (3).jpeg"], // PHOTO 1 — replace path
+          message:
+            "Look at you — so tiny, so innocent, so pure. I wish I could go back just to see the little girl who would one day become my whole world. 🌸", // MESSAGE 1
+        },
+
+        /* ── PAGE 2: two images side by side ── */
+        {
+          images: ["C:/Users/thaku/Birthday/images/WhatsApp Image 2026-05-01 at 11.54.34 PM.jpeg", "C:/Users/thaku/Birthday/images/WhatsApp Image 2026-05-01 at 11.54.40 PM.jpeg","C:/Users/thaku/Birthday/images/WhatsApp Image 2026-05-01 at 11.54.33 PM (1).jpeg"], // PHOTOS 2a & 2b — replace paths
+          message:
+            "Yeh jo choti bachi dhere dhere badi ho rahi thi mujhe pata nahi tha ek din badi hoke mere sar par tandav karegi but nevermind i love that to be honest", // MESSAGE 2
+        },
+{
+          images:[ "C:/Users/thaku/Birthday/images/WhatsApp Image 2026-05-01 at 11.54.35 PM.jpeg","C:/Users/thaku/Birthday/images/WhatsApp Image 2026-05-01 at 11.54.34 PM (3).jpeg"], // PHOTO 4 — replace path
+          message:
+            "Yeh hai Anushka ka teenage 16 17 saal kei bachi jab uske life mai ek banda aya The great Soham Thakur aur unn dono kei ek dusre kei sath itni dosti jamm gayi kei Anushka usse text karne ke liye bahane dhundhe lagi itne bahane kei papa mummy dadi sabke phone se baate karne lagi ", // MESSAGE 4
+        },
+            {
+      images: ["C:/Users/thaku/Birthday/images/WhatsApp Image 2026-05-01 at 11.54.36 PM (1).jpeg",
+      "C:/Users/thaku/Birthday/images/WhatsApp Image 2026-05-01 at 11.54.41 PM.jpeg",
+      "C:/Users/thaku/Birthday/images/WhatsApp Image 2026-05-01 at 11.54.40 PM (1).jpeg"],
+      message: "Yeh humare kuch pahile photos the first time we talked to each other the result day of 11th standard i was a very shyy guy and humari madam aagayi sidha photo lene but she made sure that i am comfortable always"
+    },
+        {
+      images:  ["C:/Users/thaku/Birthday/images/WhatsApp Image 2026-05-01 at 11.54.41 PM (2).jpeg",
+      "C:/Users/thaku/Birthday/images/WhatsApp Image 2026-05-01 at 11.54.33 PM.jpeg",
+      "C:/Users/thaku/Birthday/images/WhatsApp Image 2026-05-01 at 11.54.31 PM.jpeg"],
+      message: "Yeh photos toh bhai pahile hei mai itna darta tha tere papa se upar se tune sidha ghar bula liyaa but acha laga mujhe ghar ake tere ekdam aisa apne ghar jaisa hei lagna at the end mera hei ghar hai woh bhi haina and the third photo very special Dum toh hai haa Anushka Patil mai maan gaya bhaii"
+    },
+        /* ── PAGE 3: three images in a row ── */
+        {
+          images: [
+            "C:/Users/thaku/Birthday/images/WhatsApp Image 2026-05-01 at 11.54.31 PM (1).jpeg",
+            "C:/Users/thaku/Birthday/images/WhatsApp Image 2026-05-01 at 11.54.40 PM (2).jpeg",
+            "C:/Users/thaku/Birthday/images/WhatsApp Image 2026-05-01 at 11.54.32 PM.jpeg",
+            "C:/Users/thaku/Birthday/images/WhatsApp Image 2026-05-01 at 11.54.32 PM (3).jpeg",
+          ], // PHOTOS 3a, 3b, 3c
+          message:
+            "You in a saree is one of the most beautiful things I've ever seen. Graceful, radiant, and so incredibly you. I fall in love all over again every single time. 🌸", // MESSAGE 3
+        },
+
+        /* ── PAGE 4: single image ── */
+        {
+          images: ["C:/Users/thaku/Birthday/images/WhatsApp Image 2026-05-01 at 11.54.38 PM.jpeg",
+          "C:/Users/thaku/Birthday/images/WhatsApp Image 2026-05-01 at 11.54.36 PM.jpeg",
+          "C:/Users/thaku/Birthday/images/WhatsApp Image 2026-05-01 at 11.54.31 PM (2).jpeg"], // PHOTO 4 — replace path
+          message:
+            "Har roz naye naye funny filters — pagal hai meri QT, par meri favourite pagal hai. 😂❤️", // MESSAGE 4
+        },
+
+        /* ── PAGE 5: four images in a 2×2 grid ── */
+        {
+          images: [
+            "C:/Users/thaku/Birthday/images/WhatsApp Image 2026-05-01 at 11.54.35 PM (1).jpeg",
+            "C:/Users/thaku/Birthday/images/WhatsApp Image 2026-05-01 at 11.54.37 PM (1).jpeg",
+            "C:/Users/thaku/Birthday/images/WhatsApp Image 2026-05-01 at 11.54.37 PM (2).jpeg",
+            "C:/Users/thaku/Birthday/images/WhatsApp Image 2026-05-01 at 11.54.37 PM (3).jpeg",
+          ], // PHOTOS 5a–5d — replace paths
+          message:
+            "Aur yeh humari adhi kahani platforms aur trains mai hei chali gayii kitne ladayi hui but fir bhi sab side mai chodke hum milte the kab dom ajata tha pata hei nay chalta and you always wanted kei train late hojaye taaki thoda aur wakt mile soham ki sath", // MESSAGE 5
+        },
+
+    {
+      images: ["C:/Users/thaku/Birthday/images/WhatsApp Image 2026-05-01 at 11.54.38 PM (1).jpeg",
+      "C:/Users/thaku/Birthday/images/WhatsApp Image 2026-05-01 at 11.54.38 PM (2).jpeg",
+      "C:/Users/thaku/Birthday/images/WhatsApp Image 2026-05-01 at 11.54.39 PM.jpeg"],
+      message: "humari pheonix mall kei dates kei bare mai toh kya hei kahe bhai sahab mujhe to flashbacks aane lagte hai mast hum rice khate the ek dusre ko khilate the gappe ladate the movie to hum itni gaur se aur dhyan se dekhte the kei kya hei batau mai but i wish yeh phoenix mall kei date ek baar wapis ho "
+    },
+{
+      images:  ["C:/Users/thaku/Birthday/images/Screenshot 2026-05-02 085335.png","C:/Users/thaku/Birthday/images/WhatsApp Image 2026-05-01 at 11.54.34 PM (2).jpeg"],
+      message: "And finally the moment i realised kei meri Anushka ab bahot badi hogayi hai she is 20 now but still a smal kiddo for me always hehee kitni bhi badi hoja but mere se jo tu childish cutely behave karti hai mujhe bahot pasand hai i am lucky that i get to see this side of you love you babyyy"
+    },
+        /* ── ADD MORE PAGES BELOW — copy any block above and edit ──
+    {
+      images:  "images/photo7.jpg",
+      message: ""
+    },
+    */
+      ];
+
+      /* ──────────────────────────────────────────
+     FLOATING HEARTS BACKGROUND
+  ────────────────────────────────────────── */
+      (function spawnBgHearts() {
+        const container = document.getElementById("hearts-bg");
+        const symbols = ["❤️", "💕", "💗", "💓", "💖", "🌸", "✨"];
+        for (let i = 0; i < 22; i++) {
+          const h = document.createElement("div");
+          h.className = "bg-heart";
+          h.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+          h.style.left = Math.random() * 100 + "vw";
+          h.style.fontSize = 0.9 + Math.random() * 1.5 + "rem";
+          const dur = 8 + Math.random() * 12;
+          h.style.animationDuration = dur + "s";
+          h.style.animationDelay = -(Math.random() * dur) + "s";
+          container.appendChild(h);
+        }
+      })();
+
+      /* ──────────────────────────────────────────
+     NO BUTTON — playful escape logic
+  ────────────────────────────────────────── */
+      const noBtn = document.createElement("button");
+      noBtn.className = "btn";
+      noBtn.id = "no-btn";
+      noBtn.textContent = "No 🙈";
+      document.body.appendChild(noBtn);
+
+      // Initial position — bottom-right area
+      let noBtnVisible = false;
+
+      function positionNoBtn() {
+        const bw = noBtn.offsetWidth || 120;
+        const bh = noBtn.offsetHeight || 52;
+        const margin = 16;
+        const maxX = window.innerWidth - bw - margin;
+        const maxY = window.innerHeight - bh - margin;
+
+        // Keep away from the Yes button
+        const yesBtn = document.getElementById("yes-btn");
+        const yr = yesBtn ? yesBtn.getBoundingClientRect() : null;
+
+        let x,
+          y,
+          tries = 0;
+        do {
+          x = margin + Math.random() * (maxX - margin);
+          y = margin + Math.random() * (maxY - margin);
+          tries++;
+          // Avoid overlapping yes-btn by at least 80px
+          if (!yr) break;
+          const tooClose =
+            x < yr.right + 80 &&
+            x + bw > yr.left - 80 &&
+            y < yr.bottom + 60 &&
+            y + bh > yr.top - 60;
+          if (!tooClose) break;
+        } while (tries < 30);
+
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+      }
+
+      function showNoBtn() {
+        if (noBtnVisible) return;
+        noBtnVisible = true;
+        noBtn.style.display = "block";
+        // Place near center initially, then escape on hover
+        noBtn.style.left = window.innerWidth / 2 + 80 + "px";
+        noBtn.style.top = window.innerHeight / 2 + 10 + "px";
+      }
+
+      // Escape on mouseenter
+      noBtn.addEventListener("mouseenter", () => {
+        positionNoBtn();
+      });
+      // Also escape on touchstart (mobile)
+      noBtn.addEventListener(
+        "touchstart",
+        (e) => {
+          e.preventDefault();
+          positionNoBtn();
+        },
+        { passive: false },
+      );
+      // Clicking it does nothing meaningful
+      noBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        positionNoBtn();
+      });
+
+      // Show the No button once the question screen loads
+      window.addEventListener("load", () => {
+        showNoBtn();
+      });
+
+      /* ──────────────────────────────────────────
+     SCREEN TRANSITIONS
+  ────────────────────────────────────────── */
+      function showScreen(id) {
+        document
+          .querySelectorAll(".screen")
+          .forEach((s) => s.classList.add("hidden"));
+        document.getElementById(id).classList.remove("hidden");
+      }
+
+      /* ──────────────────────────────────────────
+     YES BUTTON → BIRTHDAY POPUP
+  ────────────────────────────────────────── */
+      function onYes() {
+        noBtn.style.display = "none";
+        showScreen("popup-overlay");
+        startConfetti();
+        startFirecrackerSequence();
+      }
+
+      /* ──────────────────────────────────────────
+     CONFETTI
+  ────────────────────────────────────────── */
+      let confettiRAF = null;
+      let confettiStop = false;
+
+      function startConfetti() {
+        const canvas = document.getElementById("confetti-canvas");
+        canvas.style.display = "block";
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const ctx = canvas.getContext("2d");
+        confettiStop = false;
+
+        const colors = [
+          "#e8638c",
+          "#ffb3cb",
+          "#ff8fab",
+          "#c0395e",
+          "#ffd6e7",
+          "#ff6b9d",
+          "#ffffff",
+          "#ffa0c0",
+        ];
+        const particles = Array.from({ length: 120 }, () => ({
+          x: Math.random() * canvas.width,
+          y: -10 - Math.random() * 100,
+          r: 4 + Math.random() * 6,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          speedY: 1.5 + Math.random() * 3,
+          speedX: -1.5 + Math.random() * 3,
+          tilt: Math.random() * 360,
+          tiltSpeed: 1 + Math.random() * 3,
+          shape: Math.random() > 0.5 ? "rect" : "circle",
+          alpha: 0.7 + Math.random() * 0.3,
+        }));
+
+        function drawHeart(ctx, x, y, size) {
+          ctx.beginPath();
+          ctx.moveTo(x, y + size * 0.3);
+          ctx.bezierCurveTo(x, y, x - size, y, x - size, y + size * 0.4);
+          ctx.bezierCurveTo(
+            x - size,
+            y + size * 0.8,
+            x,
+            y + size * 1.1,
+            x,
+            y + size * 1.3,
+          );
+          ctx.bezierCurveTo(
+            x,
+            y + size * 1.1,
+            x + size,
+            y + size * 0.8,
+            x + size,
+            y + size * 0.4,
+          );
+          ctx.bezierCurveTo(x + size, y, x, y, x, y + size * 0.3);
+          ctx.closePath();
+        }
+
+        function tick() {
+          if (confettiStop) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            canvas.style.display = "none";
+            return;
+          }
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          particles.forEach((p) => {
+            p.y += p.speedY;
+            p.x += p.speedX;
+            p.tilt += p.tiltSpeed;
+            if (p.y > canvas.height + 20) {
+              p.y = -10;
+              p.x = Math.random() * canvas.width;
+            }
+            ctx.save();
+            ctx.globalAlpha = p.alpha;
+            ctx.fillStyle = p.color;
+            ctx.translate(p.x, p.y);
+            ctx.rotate((p.tilt * Math.PI) / 180);
+            if (p.shape === "rect") {
+              ctx.fillRect(-p.r / 2, -p.r / 2, p.r, p.r * 0.5);
+            } else {
+              ctx.beginPath();
+              ctx.arc(0, 0, p.r / 2, 0, Math.PI * 2);
+              ctx.fill();
+            }
+            ctx.restore();
+          });
+          confettiRAF = requestAnimationFrame(tick);
+        }
+        tick();
+      }
+
+      function stopConfetti() {
+        confettiStop = true;
+        if (confettiRAF) cancelAnimationFrame(confettiRAF);
+      }
+
+      /* ──────────────────────────────────────────
+     FIRECRACKER ANIMATION
+  ────────────────────────────────────────── */
+      function createFirecrackers() {
+        const zone = document.getElementById("firecracker-zone");
+        if (!zone) return;
+
+        const colors = ["red", "gold", "pink"];
+        const crackerCount = 24;
+
+        for (let i = 0; i < crackerCount; i++) {
+          const cracker = document.createElement("div");
+          cracker.className = `firecracker ${colors[Math.floor(Math.random() * colors.length)]}`;
+
+          // Random burst direction
+          const angle =
+            (Math.PI * 2 * i) / crackerCount + (Math.random() - 0.5) * 0.5;
+          const distance = 80 + Math.random() * 120;
+          const tx = Math.cos(angle) * distance;
+          const ty = Math.sin(angle) * distance;
+
+          cracker.style.setProperty("--tx", `${tx}px`);
+          cracker.style.setProperty("--ty", `${ty}px`);
+          cracker.style.left = Math.random() * 100 + "px";
+          cracker.style.top = Math.random() * 100 + "px";
+          cracker.style.animationDelay = Math.random() * 0.2 + "s";
+
+          zone.appendChild(cracker);
+
+          // Remove after animation
+          setTimeout(() => cracker.remove(), 1600 + Math.random() * 400);
+        }
+      }
+
+      // Trigger firecrackers immediately and continuously
+      function startFirecrackerSequence() {
+        createFirecrackers();
+        setTimeout(() => createFirecrackers(), 300);
+        setTimeout(() => createFirecrackers(), 600);
+        setTimeout(() => createFirecrackers(), 900);
+      }
+
+      /* ──────────────────────────────────────────
+     CONTINUE → GALLERY
+  ────────────────────────────────────────── */
+      let currentIndex = 0;
+
+      function showGallery() {
+        stopConfetti();
+        showScreen("gallery-screen");
+        renderPage(currentIndex, false);
+      }
+
+      /* Build a placeholder div when an image src fails */
+      function makePlaceholder(label) {
+        const ph = document.createElement("div");
+        ph.style.cssText =
+          "width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:#c0395e;";
+        ph.innerHTML = `<span style="font-size:2.2rem">📷</span>
+      <p style="font-family:'Dancing Script',cursive;font-size:0.9rem">${label}</p>`;
+        return ph;
+      }
+
+      /* Create an <img> with graceful error fallback */
+      function makeImg(src, alt) {
+        const img = document.createElement("img");
+        img.alt = alt;
+        img.src = src;
+        img.onerror = function () {
+          this.style.display = "none";
+          this.parentElement.appendChild(makePlaceholder(src));
+        };
+        return img;
+      }
+
+      function renderPage(index, animate) {
+        const area = document.getElementById("photo-area");
+        const msgWrap = document.getElementById("photo-message");
+        const msgEl = document.getElementById("message-text");
+        const counter = document.getElementById("photo-counter");
+
+        if (animate) {
+          area.classList.add("fade-out");
+          msgWrap.classList.add("fade-out");
+        }
+
+        setTimeout(
+          () => {
+            const page = pages[index];
+            const imgs = Array.isArray(page.images)
+              ? page.images
+              : [page.images];
+            const isMulti = imgs.length > 1;
+
+            /* ── Build photo area ── */
+            area.innerHTML = "";
+            area.className = "photo-area " + (isMulti ? "multi" : "single");
+
+            // Heart badge
+            const badge = document.createElement("div");
+            badge.className = "heart-badge";
+            badge.textContent = "❤️";
+            area.appendChild(badge);
+
+            if (isMulti) {
+              /* Grid layout */
+              const grid = document.createElement("div");
+              const n = Math.min(imgs.length, 6);
+              grid.className = `photo-grid count-${n}`;
+              imgs.forEach((src, i) => {
+                const cell = document.createElement("div");
+                cell.className = "grid-cell";
+                cell.appendChild(makeImg(src, `Memory ${index + 1}-${i + 1}`));
+                grid.appendChild(cell);
+              });
+              area.appendChild(grid);
+            } else {
+              /* Single image */
+              const frame = document.createElement("div");
+              frame.className = "photo-frame";
+              frame.appendChild(makeImg(imgs[0], `Memory ${index + 1}`));
+              area.appendChild(frame);
+            }
+
+            /* ── Message ── */
+            msgEl.textContent = page.message;
+            counter.textContent = `${index + 1} / ${pages.length}`;
+
+            /* ── Prev button state ── */
+            document.getElementById("prev-btn").disabled = index === 0;
+
+            area.classList.remove("fade-out");
+            msgWrap.classList.remove("fade-out");
+          },
+          animate ? 380 : 0,
+        );
+      }
+
+      function navigate(dir) {
+        const newIndex = currentIndex + dir;
+        if (newIndex < 0) return;
+        if (newIndex >= pages.length) {
+          showScreen("final-overlay");
+          return;
+        }
+        currentIndex = newIndex;
+        renderPage(currentIndex, true);
+      }
+
+      /* ──────────────────────────────────────────
+     RESTART
+  ────────────────────────────────────────── */
+      function restart() {
+        currentIndex = 0;
+        noBtnVisible = false;
+        showScreen("question-screen");
+        showNoBtn();
+        noBtn.style.display = "block";
+        setTimeout(positionNoBtn, 100);
+      }
+
+      /* ──────────────────────────────────────────
+     RESIZE: reposition no button
+  ────────────────────────────────────────── */
+      window.addEventListener("resize", () => {
+        if (noBtnVisible && noBtn.style.display !== "none") positionNoBtn();
+      });
+    </script>
+  </body>
+</html>
